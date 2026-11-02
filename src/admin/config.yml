@@ -1,14 +1,14 @@
 backend:
   name: github
-  repo: ismoilov-dev/portfolio   # GitHub'dagi repo nomingiz bilan almashtiring
+  repo: ismoilov-dev/ismat.online
   branch: main
 
 # localhost'da `npm run dev` bilan GitHub'siz ishlaydi (saytda e'tiborga olinmaydi)
 local_backend: true
 
 locale: en
-site_url: https://ismat.live
-display_url: https://ismat.live
+site_url: https://ismat.online
+display_url: https://ismat.online
 media_folder: src/img/uploads
 public_folder: /img/uploads
 

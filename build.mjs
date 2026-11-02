@@ -3,7 +3,7 @@ import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
 
-const SITE = (process.env.SITE_URL || "https://ismat.live").replace(/\/$/, "");
+const SITE = (process.env.SITE_URL || "https://ismat.online").replace(/\/$/, "");
 const SRC = "src", OUT = "dist";
 const year = new Date().getFullYear();
 
