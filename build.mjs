@@ -14,6 +14,8 @@ const iso = d => d.toISOString().slice(0, 10);
 const slugify = s => String(s).toLowerCase().replace(/[ʻʼ'`’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const list = v => (Array.isArray(v) ? v : v ? String(v).split(",") : []).map(x => String(x).trim()).filter(Boolean);
 const str = v => (v === undefined || v === null ? "" : String(v).trim());
+// "tester.lesson24.uz" kabi protokolsiz havolalarga https:// qo'shadi (aks holda nisbiy yo'l bo'lib 404 beradi)
+const link = v => { const s = str(v); return !s || /^(https?:|mailto:|tel:|\/|#)/i.test(s) ? s : `https://${s.replace(/^\/+/, "")}`; };
 /** bilingual text: renders both languages, CSS shows the active one */
 const bi = (o, tag = "span") => {
   if (!o) return "";
@@ -79,7 +81,7 @@ const projects = loadCollection("content/projects").map(({ id, data, content }) 
   summary: { uz: str(data.summary_uz), en: str(data.summary_en) || str(data.summary_uz) },
   status: { uz: str(data.status), en: str(data.status) },
   stack: list(data.stack),
-  url: str(data.url), repo: str(data.repo), docs: str(data.docs),
+  url: link(data.url), repo: link(data.repo), docs: link(data.docs),
   cover: str(data.cover),
   featured: !!data.featured,
   order: Number.isFinite(Number(data.order)) ? Number(data.order) : 10,
