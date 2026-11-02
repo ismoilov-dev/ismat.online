@@ -180,12 +180,11 @@ const projectCard = (p, i) => {
     p.repo && `<a href="${esc(p.repo)}" target="_blank" rel="noopener">GitHub ${icon("arrow", 14)}</a>`,
     p.docs && `<a href="${esc(p.docs)}" target="_blank" rel="noopener">Docs ${icon("arrow", 14)}</a>`
   ].filter(Boolean).join("");
-  return `<article class="card proj${p.featured ? " is-featured" : ""} reveal" style="--i:${i % 3}">
-    <div class="proj-cover" style="--h:${(i * 47) % 360}">
-      ${p.cover ? `<img src="${esc(p.cover)}" alt="${esc(p.name)}" loading="lazy">` : `<span class="proj-initial">${esc(p.name.charAt(0))}</span>`}
-    </div>
+  return `<article class="card proj${p.featured ? " is-featured" : ""}${p.cover ? "" : " no-cover"} reveal" style="--i:${i % 3}">
+    ${p.cover ? `<div class="proj-cover"><img src="${esc(p.cover)}" alt="${esc(p.name)}" loading="lazy"></div>` : ""}
     <div class="proj-body">
       <div class="proj-top">
+        ${p.cover ? "" : `<span class="proj-mark" style="--h:${(i * 47) % 360}" aria-hidden="true">${esc(p.name.charAt(0))}</span>`}
         <h3>${main ? `<a class="stretched" href="${esc(main)}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name)}</h3>
         ${p.year ? `<span class="proj-year">${esc(p.year)}</span>` : ""}
       </div>

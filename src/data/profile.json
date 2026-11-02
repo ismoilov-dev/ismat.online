@@ -7,8 +7,8 @@
   "city": "Qarshi",
   "name": "Ismat Ismoilov",
   "about": {
-    "uz": "Qarshida yashayman. Django, DRF va FastAPI'da backend yozaman, loyihalarga Claude API va MCP orqali AI ulayman. Sfera IT Academy'da backend mentorman: Python, AI Engineering va olimpiadaga tayyorgarlik darslarini o'taman. Bo'sh vaqtimda o'z mahsulotlarimni quraman: Tester va Acadium.",
-    "en": "I live in Qarshi, Uzbekistan. I write backends in Django, DRF and FastAPI and wire AI into products through the Claude API and MCP. I mentor backend students at Sfera IT Academy, teaching Python, AI engineering and olympiad prep. The rest of the time I build my own products: Tester and Acadium."
+    "uz": "Qarshida yashayman. Django, DRF va FastAPI'da backend yozaman, loyihalarga Claude API va MCP orqali AI ulayman. MacWin Education'da Python va AI Engineering bo'yicha mentorman. Bo'sh vaqtimda o'z mahsulotlarimni quraman: Tester va Acadium.",
+    "en": "I live in Qarshi, Uzbekistan. I write backends in Django, DRF and FastAPI and wire AI into products through the Claude API and MCP. I mentor at MacWin Education, teaching Python and AI engineering. The rest of the time I build my own products: Tester and Acadium."
   },
   "role": {
     "uz": "Python backend dasturchi va AI muhandis",

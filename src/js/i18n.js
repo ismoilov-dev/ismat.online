@@ -2,7 +2,7 @@ export const dict = {
   uz: {
     "nav.work": "ishlar", "nav.path": "tajriba", "nav.terminal": "terminal", "nav.blog": "blog", "nav.contact": "aloqa",
     "hero.title": "Backend yozaman,<br>unga <em>AI</em> ulayman,<br>keyin o'quvchilarga o'rgataman.",
-    "hero.lede": "Ismat Ismoilov. Python, Django, FastAPI va Claude API. Tester va Acadium'ni quryapman, Sfera IT Academy'da mentorman.",
+    "hero.lede": "Ismat Ismoilov. Python, Django, FastAPI va Claude API. Tester va Acadium'ni quryapman, MacWin Education'da mentorman.",
     "hero.cta": "Ishlarni ko'rish ↓",
     "now.label": "hozir nima bilan bandman",
     "now.1": "Tester uchun Claude connector'ni rasmiy katalogga chiqarish",
@@ -28,7 +28,7 @@ export const dict = {
   en: {
     "nav.work": "work", "nav.path": "experience", "nav.terminal": "terminal", "nav.blog": "blog", "nav.contact": "contact",
     "hero.title": "I build backends,<br>wire <em>AI</em> into them,<br>then teach it to students.",
-    "hero.lede": "Ismat Ismoilov. Python, Django, FastAPI and the Claude API. Building Tester and Acadium, mentoring at Sfera IT Academy.",
+    "hero.lede": "Ismat Ismoilov. Python, Django, FastAPI and the Claude API. Building Tester and Acadium, mentoring at MacWin Education.",
     "hero.cta": "See the work ↓",
     "now.label": "what I'm on right now",
     "now.1": "Getting the Tester connector into Claude's official directory",
