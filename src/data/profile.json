@@ -1,24 +1,24 @@
 {
-  "name": "Ismat Ismoilov",
+  "skills": [],
+  "bio": {
+    "uz": "Backend yozaman, unga AI ulayman va o'rganganlarimni shu yerda yozib boraman.",
+    "en": "I build backends, wire AI into them, and write down what I learn along the way."
+  },
   "city": "Qarshi",
-  "email": "ismatdeveloper@gmail.com",
-  "links": {
-    "github": "https://github.com/ismoilov-dev",
-    "linkedin": "https://www.linkedin.com/in/ismoilov-ismat",
-    "telegram": ""
+  "name": "Ismat Ismoilov",
+  "about": {
+    "uz": "Qarshida yashayman. Django, DRF va FastAPI'da backend yozaman, loyihalarga Claude API va MCP orqali AI ulayman. Sfera IT Academy'da backend mentorman: Python, AI Engineering va olimpiadaga tayyorgarlik darslarini o'taman. Bo'sh vaqtimda o'z mahsulotlarimni quraman: Tester va Acadium.",
+    "en": "I live in Qarshi, Uzbekistan. I write backends in Django, DRF and FastAPI and wire AI into products through the Claude API and MCP. I mentor backend students at Sfera IT Academy, teaching Python, AI engineering and olympiad prep. The rest of the time I build my own products: Tester and Acadium."
   },
   "role": {
     "uz": "Python backend dasturchi va AI muhandis",
     "en": "Python backend developer & AI engineer"
   },
-  "bio": {
-    "uz": "Backend yozaman, unga AI ulayman va o'rganganlarimni shu yerda yozib boraman.",
-    "en": "I build backends, wire AI into them, and write down what I learn along the way."
-  },
-  "about": {
-    "uz": "Qarshida yashayman. Django, DRF va FastAPI'da backend yozaman, loyihalarga Claude API va MCP orqali AI ulayman. Sfera IT Academy'da backend mentorman: Python, AI Engineering va olimpiadaga tayyorgarlik darslarini o'taman. Bo'sh vaqtimda o'z mahsulotlarimni quraman: Tester va Acadium.",
-    "en": "I live in Qarshi, Uzbekistan. I write backends in Django, DRF and FastAPI and wire AI into products through the Claude API and MCP. I mentor backend students at Sfera IT Academy, teaching Python, AI engineering and olympiad prep. The rest of the time I build my own products: Tester and Acadium."
-  },
   "now": [],
-  "skills": []
+  "links": {
+    "github": "https://github.com/ismoilov-dev",
+    "linkedin": "https://www.linkedin.com/in/ismoilov-ismat",
+    "telegram": "@Ismoilovf_o5"
+  },
+  "email": "ismatdeveloper@gmail.com"
 }
