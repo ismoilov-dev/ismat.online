@@ -502,6 +502,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   .prose pre { margin-left: calc(var(--gutter) * -1); margin-right: calc(var(--gutter) * -1); border-radius: 0; border-left: 0; border-right: 0; }
   .prose .anchor { display: none; }
   .glow span { filter: blur(60px); }
+  .contact-mail { display: flex; max-width: 100%; gap: 10px; margin-top: 32px; font-size: clamp(16px, 5vw, 24px); overflow-wrap: anywhere; }
+  .contact-mail svg { flex: none; width: 22px; height: 22px; }
+  .contact-mail:hover { gap: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
