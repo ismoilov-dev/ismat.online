@@ -16,6 +16,7 @@ stack:
   - Django Rest Framework
   - PostgreSQL
 url: tester.lesson24.uz
+cover: /img/uploads/screenshot-2026-11-02-at-23.52.29.png
 featured: true
 order: 1
 ---
