@@ -34,6 +34,12 @@ const fmtDate = (d, lang = "uz") => `${String(d.getUTCDate()).padStart(2, "0")} 
 // ================= data =================
 const settings = JSON.parse(fs.readFileSync(`${SRC}/data/profile.json`, "utf8"));
 settings.links ||= {};
+// "@username" yoki "username" ko'rinishidagi Telegramni https://t.me/username ga aylantiradi
+{
+  const tg = str(settings.links.telegram);
+  settings.links.telegram = !tg ? "" : /^@|^[a-z0-9_]+$/i.test(tg) ? `https://t.me/${tg.replace(/^@/, "")}` : link(tg);
+}
+for (const k of ["github", "linkedin"]) settings.links[k] = link(settings.links[k]);
 settings.now = (settings.now || []).filter(n => str(n?.uz));
 settings.skills = (settings.skills || []).filter(g => str(g?.group)).map(g => ({ group: str(g.group), items: list(g.items) }));
 
