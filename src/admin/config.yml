@@ -1,0 +1,135 @@
+backend:
+  name: github
+  repo: ismoilov-dev/portfolio   # GitHub'dagi repo nomingiz bilan almashtiring
+  branch: main
+
+# localhost'da `npm run dev` bilan GitHub'siz ishlaydi (saytda e'tiborga olinmaydi)
+local_backend: true
+
+locale: en
+site_url: https://ismat.live
+display_url: https://ismat.live
+media_folder: src/img/uploads
+public_folder: /img/uploads
+
+collections:
+  # ---------------- Blog ----------------
+  - name: blog
+    label: Blog
+    label_singular: Post
+    folder: content/blog
+    create: true
+    delete: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [date, title]
+    summary: "{{date | date('YYYY-MM-DD')}} · {{title}} ({{lang}})"
+    fields:
+      - { label: Sarlavha, name: title, widget: string }
+      - { label: Sana, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Til, name: lang, widget: select, options: [uz, en], default: uz }
+      - { label: Qisqa tavsif, name: description, widget: text, hint: "Ro'yxatda va Google'da ko'rinadi, 1-2 gap" }
+      - { label: Teglar, name: tags, widget: list, required: false, hint: "Vergul bilan: django, ai" }
+      - { label: Muqova rasmi, name: cover, widget: image, required: false }
+      - { label: Qoralama, name: draft, widget: boolean, default: false, hint: "Yoqilsa, saytda chiqmaydi" }
+      - { label: Matn, name: body, widget: markdown }
+
+  # ---------------- Loyihalar ----------------
+  - name: projects
+    label: Loyihalar
+    label_singular: Loyiha
+    folder: content/projects
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    identifier_field: title
+    sortable_fields: [order, year, title]
+    summary: "{{title}} · {{year}}"
+    fields:
+      - { label: Nomi, name: title, widget: string }
+      - { label: Yil, name: year, widget: string, hint: "Masalan: 2026 yoki 2024–2026" }
+      - { label: "Qisqa tavsif (uz)", name: summary_uz, widget: text }
+      - { label: "Qisqa tavsif (en)", name: summary_en, widget: text, required: false, hint: "Bo'sh qolsa o'zbekchasi ko'rsatiladi" }
+      - { label: Holati, name: status, widget: string, required: false, hint: "Masalan: ishlab turibdi, beta, arxiv" }
+      - { label: Texnologiyalar, name: stack, widget: list, required: false, hint: "Vergul bilan: Django, React, PostgreSQL" }
+      - { label: Sayt havolasi, name: url, widget: string, required: false }
+      - { label: GitHub havolasi, name: repo, widget: string, required: false }
+      - { label: "Hujjat / Swagger havolasi", name: docs, widget: string, required: false }
+      - { label: Muqova rasmi, name: cover, widget: image, required: false, hint: "Bo'lmasa gradient fon chiqadi" }
+      - { label: Asosiy loyiha, name: featured, widget: boolean, default: false, hint: "Yoqilsa, kartochka kattaroq chiqadi" }
+      - { label: Tartib raqami, name: order, widget: number, default: 10, value_type: int, hint: "Kichik raqam tepada turadi" }
+      - { label: "Batafsil (ixtiyoriy)", name: body, widget: markdown, required: false }
+
+  # ---------------- Tajriba ----------------
+  - name: experience
+    label: Tajriba
+    label_singular: Ish joyi
+    folder: content/experience
+    create: true
+    delete: true
+    slug: "{{company}}-{{start}}"
+    identifier_field: role_uz
+    sortable_fields: [start, company]
+    summary: "{{start}} — {{end}} · {{role_uz}}, {{company}}"
+    fields:
+      - { label: "Lavozim (uz)", name: role_uz, widget: string }
+      - { label: "Lavozim (en)", name: role_en, widget: string, required: false }
+      - { label: "Kompaniya / joy", name: company, widget: string }
+      - { label: Boshlangan, name: start, widget: string, pattern: ['^\d{4}(-\d{2})?$', "Format: 2024 yoki 2024-09"], hint: "Format: 2024-09" }
+      - { label: Tugagan, name: end, widget: string, required: false, pattern: ['^(\d{4}(-\d{2})?)?$', "Format: 2025 yoki 2025-06"], hint: "Hozir ham ishlasangiz bo'sh qoldiring" }
+      - { label: "Nima qildingiz (uz)", name: text_uz, widget: text, required: false }
+      - { label: "Nima qildingiz (en)", name: text_en, widget: text, required: false }
+
+  # ---------------- Sozlamalar ----------------
+  - name: settings
+    label: Sozlamalar
+    delete: false
+    editor: { preview: false }
+    files:
+      - name: profile
+        label: Profil
+        file: src/data/profile.json
+        fields:
+          - { label: Ism, name: name, widget: string }
+          - { label: Shahar, name: city, widget: string, required: false }
+          - { label: Email, name: email, widget: string }
+          - label: Havolalar
+            name: links
+            widget: object
+            fields:
+              - { label: GitHub, name: github, widget: string, required: false }
+              - { label: LinkedIn, name: linkedin, widget: string, required: false }
+              - { label: Telegram, name: telegram, widget: string, required: false, hint: "https://t.me/..." }
+          - label: Rol
+            name: role
+            widget: object
+            fields:
+              - { label: uz, name: uz, widget: string }
+              - { label: en, name: en, widget: string }
+          - label: "Qisqa bio (hero ostida)"
+            name: bio
+            widget: object
+            fields:
+              - { label: uz, name: uz, widget: text }
+              - { label: en, name: en, widget: text }
+          - label: Men haqimda
+            name: about
+            widget: object
+            fields:
+              - { label: uz, name: uz, widget: text }
+              - { label: en, name: en, widget: text }
+          - label: "Hozir nima bilan bandman"
+            name: now
+            widget: list
+            required: false
+            summary: "{{fields.uz}}"
+            fields:
+              - { label: uz, name: uz, widget: string }
+              - { label: en, name: en, widget: string, required: false }
+          - label: Texnologiyalar
+            name: skills
+            widget: list
+            required: false
+            summary: "{{fields.group}}"
+            fields:
+              - { label: Guruh, name: group, widget: string, hint: "Masalan: Backend" }
+              - { label: Ro'yxat, name: items, widget: list, hint: "Vergul bilan: Python, Django, FastAPI" }

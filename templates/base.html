@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="{{lang}}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="theme-color" content="#09090b">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{description}}">
+<meta property="og:type" content="{{ogtype}}">
+<meta property="og:url" content="{{url}}">
+<link rel="canonical" href="{{url}}">
+<link rel="icon" href="data:,">
+<link rel="alternate" type="application/rss+xml" title="{{name}} blog" href="{{root}}blog/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{root}}css/style.css">
+<script src="{{root}}js/theme.js"></script>
+<script src="{{root}}js/site.js" defer></script>
+</head>
+<body class="{{bodyclass}}">
+
+<header class="site-header">
+  <div class="container header-row">
+    <a class="brand" href="{{root}}./">ismat<span>.</span></a>
+    <nav class="nav" aria-label="Asosiy">
+      <a href="{{root}}./#work"{{nav_work}}><span class="uz">Ishlar</span><span class="en">Work</span></a>
+      <a href="{{root}}./#experience"{{nav_exp}}><span class="uz">Tajriba</span><span class="en">Experience</span></a>
+      <a href="{{root}}blog/"{{nav_blog}}>Blog</a>
+      <a href="{{root}}lab/"{{nav_lab}}>Lab</a>
+    </nav>
+    <div class="tools">
+      <button class="lang-toggle" type="button" aria-label="Tilni almashtirish / Switch language"><b data-l="uz">UZ</b><b data-l="en">EN</b></button>
+      <button class="theme-toggle" type="button" aria-label="Light / dark">
+        <svg class="moon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></g></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+{{content}}
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-row">
+    <span>© {{year}} {{name}}</span>
+    <span class="footer-links">{{footer_links}}</span>
+  </div>
+</footer>
+{{scripts}}
+</body>
+</html>
