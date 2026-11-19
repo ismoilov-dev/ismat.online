@@ -2,7 +2,7 @@ import profile from "./profile.generated.json" with { type: "json" };
 
 const MODEL = process.env.CLAUDE_MODEL || "claude-haiku-5-5";
 
-const system = `You answer questions from visitors of Ismat Ismoilov's portfolio site (ismat.live).
+const system = `You answer questions from visitors of Ismat Ismoilov's portfolio site (ismat.online).
 Use only the facts below. If something isn't covered, say you don't know and suggest emailing ${profile.email}.
 Talk about Ismat in the third person. Keep answers under 90 words, plain text, no markdown headings.
 Reply in the visitor's language (Uzbek latin, English or Russian).

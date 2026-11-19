@@ -5,7 +5,7 @@
   var get = function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } };
   var put = function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} };
 
-  root.dataset.theme = get("theme") || "dark";
+  root.dataset.theme = get("theme") || "light";
 
   var lang = get("lang");
   if (lang !== "uz" && lang !== "en") lang = (navigator.language || "").indexOf("en") === 0 ? "en" : "uz";

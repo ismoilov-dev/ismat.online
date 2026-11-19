@@ -125,6 +125,15 @@ collections:
             fields:
               - { label: uz, name: uz, widget: string }
               - { label: en, name: en, widget: string, required: false }
+          - label: "Natijalar (llms.txt uchun)"
+            name: achievements
+            widget: list
+            required: false
+            summary: "{{fields.uz}}"
+            hint: "Masalan: hakaton o'rni, o'quvchilar soni. AI yordamchilar shu ro'yxatni o'qiydi."
+            fields:
+              - { label: uz, name: uz, widget: string }
+              - { label: en, name: en, widget: string, required: false }
           - label: Texnologiyalar
             name: skills
             widget: list

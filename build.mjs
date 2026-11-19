@@ -41,6 +41,7 @@ settings.links ||= {};
 }
 for (const k of ["github", "linkedin"]) settings.links[k] = link(settings.links[k]);
 settings.now = (settings.now || []).filter(n => str(n?.uz));
+settings.achievements = (settings.achievements || []).filter(a => str(a?.uz));
 settings.skills = (settings.skills || []).filter(g => str(g?.group)).map(g => ({ group: str(g.group), items: list(g.items) }));
 
 function loadCollection(dir) {
@@ -126,9 +127,9 @@ for (const p of posts) for (const t of p.tags) (tags[t] ||= []).push(p);
 // ================= shared pieces =================
 const base = fs.readFileSync("templates/base.html", "utf8");
 
-function page({ out, root, title, description, content, lang = "uz", ogtype = "website", nav = "", bodyclass = "", scripts = "" }) {
+function page({ out, root, title, description, content, lang = "uz", ogtype = "website", nav = "", bodyclass = "", scripts = "", head = "" }) {
   write(`${OUT}/${out}`, fill(base, {
-    root, title: esc(title), description: esc(description), content, lang, ogtype, bodyclass, scripts, year,
+    root, title: esc(title), description: esc(description), content, lang, ogtype, bodyclass, scripts, head, year,
     name: esc(settings.name),
     url: `${SITE}/${out.replace(/index\.html$/, "")}`,
     nav_blog: nav === "blog" ? ' aria-current="page"' : "",
@@ -145,6 +146,9 @@ const icons = {
   telegram: '<path fill="currentColor" d="M21.94 3.6 18.7 19.86c-.24 1.08-.88 1.35-1.78.84l-4.93-3.63-2.38 2.29c-.26.26-.48.48-.99.48l.35-5.02 9.14-8.26c.4-.35-.09-.55-.62-.2L6.2 13.47l-4.86-1.52c-1.06-.33-1.08-1.06.22-1.57L20.55 3.06c.88-.32 1.65.2 1.39 1.54z"/>',
   mail: '<path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 5.5h18v13H3z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m3.5 6 8.5 7 8.5-7"/>',
   rss: '<circle cx="5" cy="19" r="2.2" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M3 11a10 10 0 0 1 10 10M3 4a17 17 0 0 1 17 17"/>',
+  chatgpt: '<g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8.2" y="2.5" width="7.6" height="19" rx="3.8"/><rect x="8.2" y="2.5" width="7.6" height="19" rx="3.8" transform="rotate(60 12 12)"/><rect x="8.2" y="2.5" width="7.6" height="19" rx="3.8" transform="rotate(120 12 12)"/></g>',
+  claude: '<path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="M12 2.5v5M12 16.5v5M2.5 12h5M16.5 12h5M5.3 5.3l3.5 3.5M15.2 15.2l3.5 3.5M5.3 18.7l3.5-3.5M15.2 8.8l3.5-3.5"/>',
+  gemini: '<path fill="currentColor" d="M12 2c.8 5.5 4.5 9.2 10 10-5.5.8-9.2 4.5-10 10-.8-5.5-4.5-9.2-10-10 5.5-.8 9.2-4.5 10-10z"/>',
   arrow: '<path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 17 17 7M8 7h9v9"/>'
 };
 const icon = (name, size = 20) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true">${icons[name]}</svg>`;
@@ -204,6 +208,27 @@ const projectCard = (p, i) => {
   </article>`;
 };
 
+// "AI agentingizdan so'rang" bloki: har bir chip tayyor prompt bilan AI'ni ochadi
+const [first, ...restName] = settings.name.split(" ");
+const nameRev = [...restName, first].join(" "); // "Ismoilov Ismat"
+const AI_PROMPT = {
+  uz: `Web search ${first} (${SITE.replace(/^https?:\/\//, "")}) haqida to‘liq ma’lumot ber: kim, qayerda ishlaydi, loyihalari va natijalari. Manba: ${SITE}/llms.txt. O‘zbek tilida javob ber.`,
+  en: `Web search: give me full information about ${settings.name} (${SITE.replace(/^https?:\/\//, "")}): who he is, where he works, his projects and results. Source: ${SITE}/llms.txt. Answer in English.`
+};
+const aiChips = lang => {
+  const q = encodeURIComponent(AI_PROMPT[lang]);
+  return [
+    ["ChatGPT", `https://chatgpt.com/?hints=search&q=${q}`, "chatgpt"],
+    ["Claude", `https://claude.ai/new?q=${q}`, "claude"],
+    ["Gemini", `https://www.google.com/search?udm=50&q=${q}`, "gemini"]
+  ].map(([label, href, ic]) => `<a class="ai-chip" href="${href}" target="_blank" rel="noopener">${icon(ic, 18)}<span>${label}</span></a>`).join("");
+};
+const aiAsk = `<div class="ai-ask rise" style="--d:5">
+      <p class="ai-ask-text"><span class="uz">AI agentingizdan so‘rang: <q>${esc(nameRev)} kim?</q></span><span class="en">Ask your AI agent: <q>Who is ${esc(nameRev)}?</q></span></p>
+      <div class="ai-chips uz">${aiChips("uz")}</div>
+      <div class="ai-chips en">${aiChips("en")}</div>
+    </div>`;
+
 let n = 0;
 const num = () => String(++n).padStart(2, "0");
 
@@ -252,11 +277,20 @@ const blogSection = `
   </div>` : emptyNote("Hozircha post yo'q. Tez orada yozaman.", "No posts yet. Coming soon.")}
 </section>`;
 
-const [first, ...restName] = settings.name.split(" ");
 page({
   out: "index.html", root: "", bodyclass: "home",
   title: `${settings.name} · ${settings.role?.uz || ""}`,
   description: settings.bio?.uz || "",
+  head: `<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org", "@type": "Person",
+    name: settings.name, alternateName: nameRev, url: SITE + "/",
+    jobTitle: settings.role?.en || settings.role?.uz,
+    description: settings.about?.en || settings.about?.uz || settings.bio?.en,
+    address: settings.city ? { "@type": "PostalAddress", addressLocality: settings.city, addressCountry: "UZ" } : undefined,
+    email: settings.email ? `mailto:${settings.email}` : undefined,
+    sameAs: [settings.links.github, settings.links.linkedin, settings.links.telegram].filter(Boolean),
+    worksFor: experience.filter(e => e.current && e.where).map(e => ({ "@type": "Organization", name: e.where }))
+  }).replace(/</g, "\\u003c")}</script>`,
   content: `
 <section class="hero">
   <div class="glow" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -269,6 +303,7 @@ page({
       <a class="btn btn-primary" href="blog/">${T("Blogni o'qish", "Read the blog")} ${icon("arrow", 16)}</a>
       <a class="btn btn-ghost" href="#contact">${T("Bog'lanish", "Get in touch")}</a>
     </p>
+    ${aiAsk}
   </div>
   <a class="scroll-hint" href="#${projects.length ? "work" : hasAboutBlock ? "experience" : "blog"}" aria-label="Pastga">
     <span></span>
@@ -429,6 +464,13 @@ page({
 // ================= data + feeds =================
 write(`${OUT}/data/profile.json`, JSON.stringify(profile, null, 1));
 write("netlify/functions/profile.generated.json", JSON.stringify(profile, null, 1));
+write("functions/_profile.generated.json", JSON.stringify(profile, null, 1));
+
+// Cloudflare Pages: Decap CMS GitHub OAuth'ni o'z endpointimiz orqali ishlatadi (Netlify'da standart yo'l qoladi)
+if (process.env.CF_PAGES) {
+  const f = `${OUT}/admin/config.yml`;
+  fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace("  branch: main\n", `  branch: main\n  base_url: ${SITE}\n  auth_endpoint: api/auth\n`));
+}
 
 write(`${OUT}/posts.json`, JSON.stringify(posts.map(p => ({
   title: p.title, date: iso(p.date), lang: p.lang, url: `blog/${p.slug}/`, description: p.description, tags: p.tags
@@ -446,6 +488,87 @@ write(`${OUT}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `<url><loc>${SITE}/${u}</loc></url>`).join("\n")}
 </urlset>`);
+
+// ================= llms.txt =================
+// AI yordamchilar (ChatGPT, Claude, Gemini) shu faylni o'qiydi. Ma'lumot admin paneldagi kontentdan avtomatik yig'iladi.
+{
+  const L = (o, k) => str(o?.[k]) || str(o?.uz);
+  const when = e => `${e.when_en}`;
+  const projLine = (p, k) => `- **${p.name}**${p.year ? ` (${p.year})` : ""}${p.url ? ` — ${p.url}` : ""}: ${L(p.summary, k)}${p.stack.length ? ` Stack: ${p.stack.join(", ")}.` : ""}`;
+  const cur = experience.filter(e => e.current);
+  const curText = k => cur.map(e => `${L(e.title, k)} — ${e.where}`).join("; ");
+  const links = [
+    settings.links.github && `- GitHub: ${settings.links.github}`,
+    settings.links.linkedin && `- LinkedIn: ${settings.links.linkedin}`,
+    settings.links.telegram && `- Telegram: ${settings.links.telegram}`,
+    settings.email && `- Email: ${settings.email}`
+  ].filter(Boolean).join("\n");
+
+  const intro = `${settings.name} is a ${L(settings.role, "en")}${settings.city ? ` based in ${settings.city}, Uzbekistan` : ""}.${cur.length ? ` Currently: ${curText("en")}.` : ""}${projects.length ? ` He has built ${projects.map(p => p.name).join(", ")}.` : ""}`;
+  const introUz = `${settings.name} — ${L(settings.role, "uz")}${settings.city ? `, ${settings.city}da yashaydi` : ""}.${cur.length ? ` Hozir: ${curText("uz")}.` : ""}${projects.length ? ` Qurgan loyihalari: ${projects.map(p => p.name).join(", ")}.` : ""}`;
+
+  const txt = `# ${settings.name}
+
+> ${intro}
+
+Also written as: ${nameRev} (Uzbek name order).
+
+## Facts
+- Name: ${settings.name} (${nameRev})
+- Role: ${L(settings.role, "en")} / ${L(settings.role, "uz")}
+${settings.city ? `- Location: ${settings.city}, Uzbekistan\n` : ""}- Website: ${SITE}/
+${cur.length ? `- Currently: ${curText("en")}\n` : ""}${links}
+
+## Results
+${settings.achievements.length ? settings.achievements.map(a => `- ${L(a, "en")}`).join("\n") : "- (not listed)"}
+
+## Experience
+(Descriptions are written by Ismat in the first person.)
+${experience.map(e => `- ${when(e)}: ${L(e.title, "en")} — ${e.where}. ${L(e.text, "en")}`).join("\n")}
+
+## Projects and startups
+${projects.map(p => projLine(p, "en")).join("\n")}
+
+## Pages
+- ${SITE}/ — portfolio: work, experience, contact
+- ${SITE}/blog/ — blog on backend, AI and teaching
+- ${SITE}/lab/ — interactive terminal and an AI chat that answers questions about ${first}
+${posts.map(p => `- ${SITE}/blog/${p.slug}/ — ${p.title}`).join("\n")}
+
+## Questions and answers (English)
+
+### Who is ${nameRev}?
+${intro}
+
+In his own words: ${L(settings.about, "en")}
+
+### Where does ${first} work?
+${cur.length ? curText("en") + "." : "See the experience list above."}
+
+### What has ${first} built?
+${projects.map(p => `${p.name}${p.url ? ` (${p.url})` : ""}`).join("; ")}.
+
+### How can I contact ${first}?
+${settings.email ? `Email ${settings.email}. ` : ""}${[settings.links.telegram, settings.links.linkedin, settings.links.github].filter(Boolean).join(", ")}.
+
+## Savol-javob (o‘zbekcha)
+
+### ${nameRev} kim?
+${introUz}
+
+O‘z so‘zlari bilan: ${L(settings.about, "uz")}
+
+### ${first} qayerda ishlaydi?
+${cur.length ? curText("uz") + "." : "Yuqoridagi tajriba ro‘yxatiga qarang."}
+
+### ${first} qanday loyihalar qurgan?
+${projects.map(p => `${p.name}${p.url ? ` (${p.url})` : ""}`).join("; ")}.
+${settings.achievements.length ? `\n### Natijalari qanday?\n${settings.achievements.map(a => L(a, "uz")).join("; ")}.\n` : ""}
+### Qanday bog‘lansa bo‘ladi?
+${settings.email ? `Email: ${settings.email}. ` : ""}${[settings.links.telegram, settings.links.linkedin, settings.links.github].filter(Boolean).join(", ")}.
+`;
+  write(`${OUT}/llms.txt`, txt);
+}
 
 write(`${OUT}/robots.txt`, `User-agent: *\nDisallow: /admin/\nSitemap: ${SITE}/sitemap.xml\n`);
 

@@ -13,9 +13,9 @@ status: ishlab turibdi
 stack:
   - Python
   - Django
-  - Html
-  - Css
-  - JS
+  - HTML
+  - CSS
+  - JavaScript
 url: eduqash.uz
 featured: true
 order: 3

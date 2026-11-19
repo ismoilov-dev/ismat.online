@@ -20,5 +20,19 @@
     "linkedin": "https://www.linkedin.com/in/ismoilov-ismat",
     "telegram": "@lazy_devvbek"
   },
-  "email": "ismatismoilov709@gmail.com"
+  "email": "ismatismoilov709@gmail.com",
+  "achievements": [
+    {
+      "uz": "Shogirdlari bilan AI Hackathon (Qarshi bosqichi)da 3-o‘rin",
+      "en": "3rd place at the AI Hackathon (Karshi stage) together with his students"
+    },
+    {
+      "uz": "Onlayn va oflayn formatda 100 dan ortiq dars o‘tgan",
+      "en": "Has taught 100+ lessons, online and offline"
+    },
+    {
+      "uz": "MacWin Education'da Python bo‘yicha 100 ga yaqin o‘quvchiga dars beradi",
+      "en": "Teaches Python to nearly 100 students at MacWin Education"
+    }
+  ]
 }

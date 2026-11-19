@@ -44,7 +44,27 @@ npm run dev        # http://localhost:5173
 
 Lokalda AI chat "oflayn rejim"da ishlaydi (saytdagi ma'lumotdan javob beradi). Haqiqiy Claude javobi uchun `npx netlify dev` ishlating va `.env` ga `ANTHROPIC_API_KEY=...` yozing.
 
-## Deploy: 1-qadam, GitHub
+## Deploy: Cloudflare Pages (tavsiya etiladi)
+
+Repo Cloudflare Pages uchun tayyor: statik sayt `dist/`, AI chat `functions/api/chat.js`, admin paroli `functions/admin/_middleware.js`, Decap uchun GitHub OAuth `functions/api/auth.js` + `callback.js`.
+
+1. dash.cloudflare.com → **Workers & Pages → Create → Pages → Connect to Git** → `ismoilov-dev/ismat.online`.
+2. Build sozlamalari: Build command `npm run build`, Build output directory `dist`. Production branch: `main`.
+3. **Settings → Variables and Secrets** (Production) ga qo'shing:
+   - `ANTHROPIC_API_KEY` (AI chat uchun), ixtiyoriy `CLAUDE_MODEL`
+   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SECRET` (admin panel paroli; secret uzun tasodifiy qator)
+   - `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` (blog admin paneli uchun)
+4. GitHub → Settings → Developer settings → OAuth Apps: Authorization callback URL ni `https://ismat.online/api/callback` ga o'zgartiring (yoki yangi OAuth App yarating).
+5. **Custom domains** → `ismat.online` qo'shing. Domen Cloudflare DNS'da bo'lmasa, Cloudflare ko'rsatgan CNAME yozuvini registratorda (Spaceship) kiriting yoki nameserver'larni Cloudflare'ga o'tkazing.
+6. Hammasi ishlagach, Netlify'dagi saytni o'chirishingiz mumkin.
+
+Cloudflare build paytida `CF_PAGES` o'zgaruvchisini o'zi qo'yadi, shu sabab `build.mjs` admin `config.yml` ga `base_url` va `auth_endpoint` ni o'zi qo'shadi. Netlify'da esa standart OAuth ishlayveradi.
+
+Lokal sinash: `npm run build && npx wrangler pages dev dist`.
+
+---
+
+## Eski yo'l: Netlify (1-qadam, GitHub)
 
 ```bash
 git init && git add . && git commit -m "first version"

@@ -3,3 +3,5 @@ dist/
 .netlify/
 .env
 netlify/functions/profile.generated.json
+functions/_profile.generated.json
+.wrangler/

@@ -13,7 +13,7 @@ summary_en: Tester (tester.lesson24.uz) is an educational platform designed to
 status: ishlab turibdi
 stack:
   - Python
-  - Django Rest Framework
+  - Django REST Framework
   - PostgreSQL
 url: tester.lesson24.uz
 cover: ""
