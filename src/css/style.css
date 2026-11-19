@@ -140,10 +140,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .hero {
   position: relative; min-height: calc(100svh - 68px);
   display: flex; flex-direction: column; justify-content: flex-start;
-  margin: 0 calc(var(--gutter) * -1); padding: clamp(28px, 7vh, 72px) var(--gutter) clamp(56px, 9vh, 96px);
+  margin: 0 calc(var(--gutter) * -1); padding: clamp(28px, 7vh, 72px) var(--gutter) 112px;
   isolation: isolate;
 }
-.hero-inner { position: relative; z-index: 1; }
+.hero-inner { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; align-items: flex-start; }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 8px 16px 8px 12px; border-radius: 999px;
@@ -167,7 +167,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(20px, 4vh, 32px); }
 
 /* ---------- "AI agentingizdan so'rang" ---------- */
-.ai-ask { margin-top: clamp(20px, 4vh, 36px); }
+.ai-ask { margin-top: auto; padding-top: clamp(28px, 5vh, 56px); }
 .ai-ask-text { color: var(--text-2); font-size: 16px; }
 .ai-ask-text q { quotes: none; color: var(--text); font-weight: 600; }
 .ai-chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
@@ -179,6 +179,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   transition: transform .2s, border-color .2s, box-shadow .2s;
 }
 .ai-chip svg { color: var(--violet); flex: none; }
+@media (max-width: 480px) { .ai-chips { gap: 8px; } .ai-chip { gap: 8px; padding: 0 12px 0 10px; font-size: 14px; } }
 .ai-chip:hover { transform: translateY(-1px); border-color: var(--text-2); box-shadow: var(--shadow); }
 .scroll-hint {
   position: absolute; left: 50%; bottom: 36px; z-index: 1; transform: translateX(-50%);
