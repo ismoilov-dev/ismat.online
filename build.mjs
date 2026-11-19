@@ -297,13 +297,17 @@ page({
   <div class="hero-inner">
     <p class="hero-eyebrow rise" style="--d:0"><span class="pulse"></span>${settings.city ? esc(settings.city) + " · " : ""}${T("Yangi loyihalarga ochiqman", "Open to new projects")}</p>
     <h1 class="hero-name rise" style="--d:1"><span>${esc(first)}</span>${restName.length ? `<span class="grad">${esc(restName.join(" "))}</span>` : ""}</h1>
+    <div class="hero-row">
+    <div class="hero-main">
     <p class="hero-role rise" style="--d:2">${bi(settings.role)}</p>
     ${settings.bio?.uz ? `<p class="hero-bio rise" style="--d:3">${bi(settings.bio)}</p>` : ""}
     <p class="hero-cta rise" style="--d:4">
       <a class="btn btn-primary" href="blog/">${T("Blogni o'qish", "Read the blog")} ${icon("arrow", 16)}</a>
       <a class="btn btn-ghost" href="#contact">${T("Bog'lanish", "Get in touch")}</a>
     </p>
+    </div>
     ${aiAsk}
+    </div>
   </div>
   <a class="scroll-hint" href="#${projects.length ? "work" : hasAboutBlock ? "experience" : "blog"}" aria-label="Pastga">
     <span></span>
