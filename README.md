@@ -44,23 +44,23 @@ npm run dev        # http://localhost:5173
 
 Lokalda AI chat "oflayn rejim"da ishlaydi (saytdagi ma'lumotdan javob beradi). Haqiqiy Claude javobi uchun `npx netlify dev` ishlating va `.env` ga `ANTHROPIC_API_KEY=...` yozing.
 
-## Deploy: Cloudflare Pages (tavsiya etiladi)
+## Deploy: Cloudflare (Workers + static assets)
 
-Repo Cloudflare Pages uchun tayyor: statik sayt `dist/`, AI chat `functions/api/chat.js`, admin paroli `functions/admin/_middleware.js`, Decap uchun GitHub OAuth `functions/api/auth.js` + `callback.js`.
+Repo Cloudflare'ning yangi Workers oqimi uchun tayyor: `wrangler.toml` statik saytni (`dist/`) va `worker/index.js` ni ulaydi. Worker `/api/chat` (AI chat), `/api/auth` + `/api/callback` (Decap uchun GitHub OAuth) va `/admin` (parol) ni boshqaradi. Kod `functions/` papkasida turadi.
 
-1. dash.cloudflare.com → **Workers & Pages → Create → Pages → Connect to Git** → `ismoilov-dev/ismat.online`.
-2. Build sozlamalari: Build command `npm run build`, Build output directory `dist`. Production branch: `main`.
-3. **Settings → Variables and Secrets** (Production) ga qo'shing:
+1. dash.cloudflare.com → **Workers & Pages → Create application → Continue with GitHub** → `ismoilov-dev/ismat.online`.
+2. Project name `ismat-online` (`wrangler.toml` dagi `name` bilan bir xil bo'lsin). Build command `npm run build`. Deploy command standart: `npx wrangler deploy`.
+3. Deploydan keyin **Settings → Variables and secrets** ga qo'shing (Secret turida):
    - `ANTHROPIC_API_KEY` (AI chat uchun), ixtiyoriy `CLAUDE_MODEL`
-   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SECRET` (admin panel paroli; secret uzun tasodifiy qator)
+   - `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SECRET` (secret: uzun tasodifiy qator)
    - `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` (blog admin paneli uchun)
-4. GitHub → Settings → Developer settings → OAuth Apps: Authorization callback URL ni `https://ismat.online/api/callback` ga o'zgartiring (yoki yangi OAuth App yarating).
-5. **Custom domains** → `ismat.online` qo'shing. Domen Cloudflare DNS'da bo'lmasa, Cloudflare ko'rsatgan CNAME yozuvini registratorda (Spaceship) kiriting yoki nameserver'larni Cloudflare'ga o'tkazing.
+4. GitHub → Settings → Developer settings → OAuth Apps: Authorization callback URL `https://ismat.online/api/callback`.
+5. **Settings → Domains & Routes → Add → Custom domain** → `ismat.online`.
 6. Hammasi ishlagach, Netlify'dagi saytni o'chirishingiz mumkin.
 
-Cloudflare build paytida `CF_PAGES` o'zgaruvchisini o'zi qo'yadi, shu sabab `build.mjs` admin `config.yml` ga `base_url` va `auth_endpoint` ni o'zi qo'shadi. Netlify'da esa standart OAuth ishlayveradi.
+Cloudflare build paytida `WORKERS_CI` o'zgaruvchisini o'zi qo'yadi, shu sabab `build.mjs` admin `config.yml` ga `base_url` va `auth_endpoint` ni o'zi qo'shadi. Netlify'da esa standart OAuth ishlayveradi.
 
-Lokal sinash: `npm run build && npx wrangler pages dev dist`.
+Lokal sinash: `npm run build && npx wrangler dev`.
 
 ---
 

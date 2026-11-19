@@ -466,8 +466,8 @@ write(`${OUT}/data/profile.json`, JSON.stringify(profile, null, 1));
 write("netlify/functions/profile.generated.json", JSON.stringify(profile, null, 1));
 write("functions/_profile.generated.json", JSON.stringify(profile, null, 1));
 
-// Cloudflare Pages: Decap CMS GitHub OAuth'ni o'z endpointimiz orqali ishlatadi (Netlify'da standart yo'l qoladi)
-if (process.env.CF_PAGES) {
+// Cloudflare (Pages yoki Workers Builds): Decap CMS GitHub OAuth'ni o'z endpointimiz orqali ishlatadi (Netlify'da standart yo'l qoladi)
+if (process.env.CF_PAGES || process.env.WORKERS_CI) {
   const f = `${OUT}/admin/config.yml`;
   fs.writeFileSync(f, fs.readFileSync(f, "utf8").replace("  branch: main\n", `  branch: main\n  base_url: ${SITE}\n  auth_endpoint: api/auth\n`));
 }
